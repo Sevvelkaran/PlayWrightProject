@@ -2,49 +2,42 @@ import { Page } from "@playwright/test";
 import PlaywrightWrapper from "../../helper/wrapper/PlaywrightWrapper";
 
 export default class LoginPage {
-    assertForgotPasswordPage() {
-        throw new Error("Method not implemented.");
-    }
-    private base:PlaywrightWrapper;
+  private page: Page;
+  private wrapper: PlaywrightWrapper;
 
-    constructor(private page: Page) {
-        this.base = new PlaywrightWrapper(page);
-    }
+  private usernameInput = '//input[@name="username"]';
+  private passwordInput = '//input[@name="password"]';
+  private loginButton = '//button[@type="submit"]';
+  private forgotPasswordLink = '//*[@id="app"]/div[1]/div/div[1]/div/div[2]/div[2]/form/div[4]/p';
+  private dashboardHeader = "//h6[text()='Dashboard']";
+  private errorMessage = "//p[contains(text(),'Invalid') or contains(text(),'credentials')]";
 
-    private Elements = {
-        username: "//input[@placeholder='Username']",
-        password: "//input[@placeholder='Password']",
-        login: "//button[contains(.,'Login')]",
-        forgot:  "//p[contains(.,'Forgot your password?')]",
-        drop: "//p[@class='oxd-userdropdown-name']",
-        logout:"//a[contains(@href, '/web/index.php/auth/logout')]"
-    }
-
-    async enterUsernameAndPassword(username: string, password: string) {
-        await this.base.locator(this.Elements.username).fill(username);
-        await this.base.locator(this.Elements.password).fill(password);
-    }
-    async clicklogin(){
-        await this.base.waitAndClick(this.Elements.login);
-    }
-    async clickForgot(){
-        await this.base.waitAndClick(this.Elements.forgot);
-    }
-    async clicklogout(){
-        await this.base.waitAndClick(this.Elements.drop);
-        await this.base.waitAndClick(this.Elements.logout);
-    }
-    async validateLoginResult(result: string) {
-  if (result === "valid login") {
-    await this.page.waitForURL("**/dashboard");
-    await this.base.expectToBeVisible("//h6[text()='Dashboard']");
-  } else if (result === "invalid login") {
-    await this.base.expectToHaveText("//p[@class='oxd-text oxd-text--p oxd-alert-content-text']", "Invalid credentials");
-  } else if (result === "empty login") {
-    await this.base.expectToBeVisible("//span[@class='oxd-input-field-error-message']");
+  constructor(page: Page) {
+    this.page = page;
+    this.wrapper = new PlaywrightWrapper(page);
   }
+
+  async enterUsernameAndPassword(username: string, password: string) {
+    await this.wrapper.fill(this.usernameInput, username);
+    await this.wrapper.fill(this.passwordInput, password);
+  }
+
+  async clicklogin() {
+    await this.wrapper.waitAndClick(this.loginButton);
+  }
+
+  async waitForDashboard(): Promise<void> {
+    await this.page.waitForURL(/.*\/dashboard\/.*/, { timeout: 10000 });
+    await this.page.locator(this.dashboardHeader).waitFor({ state: "visible", timeout: 10000 });
+  }
+
+  async isErrorMessageVisible(): Promise<boolean> {
+    return await this.page.locator(this.errorMessage).isVisible({ timeout: 5000 });
+  }
+
+  async clickForgot() {
+  const forgotLink = this.page.locator(this.forgotPasswordLink);
+  await forgotLink.waitFor({ state: 'visible', timeout: 10000 });  
+  await forgotLink.click();
 }
-
-
-
 }

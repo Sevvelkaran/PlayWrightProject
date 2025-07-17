@@ -1,6 +1,9 @@
 import { Locator, Page, expect } from "@playwright/test";
 
 export default class PlaywrightWrapper {
+  click(loginButton: string) {
+    throw new Error("Method not implemented.");
+  }
   constructor(private page: Page) {}
 
   // ✅ Safe locator access

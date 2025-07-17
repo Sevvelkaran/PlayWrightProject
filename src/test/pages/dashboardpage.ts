@@ -1,40 +1,83 @@
 import { Page } from "@playwright/test";
 import PlaywrightWrapper from "../../helper/wrapper/PlaywrightWrapper";
 
-export default class LoginPage {
-    assertForgotPasswordPage() {
-        throw new Error("Method not implemented.");
-    }
-    private base:PlaywrightWrapper;
+export default class DashboardPage {
+  private base: PlaywrightWrapper;
 
-    constructor(private page: Page) {
-        this.base = new PlaywrightWrapper(page);
-    }
-    private Elements = {
+  constructor(private page: Page) {
+    this.base = new PlaywrightWrapper(page);
+  }
 
-        clockicon : "//p[text()='Punch In']/following::button[1]",
-        timeinsert: "//label[text()='Time']/following-sibling::div//input",
-        out : "//p[text()='Punch Out']/following::button[1]",
-        dashboard : "//ul//li[.//span[text()='Dashboard']]/a/span",
-        assignleave: "//p[text()='Assign Leave']/following::button[1]//path",
-        arrow: "//input[@placeholder='hh:mm']/following::i[contains(@class,'minute-input-down')]"
+  private Elements = {
+    usernameInput: '//input[@name="username"]',
+    passwordInput: '//input[@name="password"]',
+    loginButton: '//button[@type="submit"]',
+    clockicon: '//div[@class="orangehrm-attendance-card-bar"]/button',
+    timeinsert: '//div[@class="oxd-time-input"]/i',
+    out: '//div[@class="oxd-form-actions"]/button',
+    arrow: '//div[@class="oxd-time-minute-input"]/i[1]',
+    dashboardTitle: "h6:has-text('Dashboard')",
+    dashboard: '//a[@href="/web/index.php/dashboard/index"]'
+  };
+
+  async enterUsernameAndPassword(username: string, password: string) {
+    await this.base.fill(this.Elements.usernameInput, username);
+    await this.base.fill(this.Elements.passwordInput, password);
+  }
+
+  async clickLogin() {
+    await this.base.waitAndClick(this.Elements.loginButton);
+  }
+
+  async clickOnClock() {
+    await this.base.waitAndClick(this.Elements.clockicon);
+  }
+
+  async timeInsert() {
+    await this.base.waitAndClick(this.Elements.timeinsert);
+  }
+
+  async clickArrow() {
+    await this.base.waitAndClick(this.Elements.arrow);
+  }
+
+  async punchOut() {
+    await this.base.waitAndClick(this.Elements.out);
+  }
+
+  async clickDashboard() {
+    await this.base.waitAndClick(this.Elements.dashboard);
+  }
+
+  async assertDashboardTitle(expected: string) {
+    const actual = await this.page.locator(this.Elements.dashboardTitle).textContent();
+    if (!actual?.includes(expected)) {
+      throw new Error(`Expected Dashboard title "${expected}", but got "${actual}"`);
+    }
+  }
+
+  async assertQuickActionVisible(actionText: string) {
+    let locator;
+    switch (actionText) {
+      case "Assign Leave":
+      case "Leave List":
+      case "Timesheets":
+      case "Apply Leave":
+      case "My Leave":
+      case "My Timesheet":
+        locator = this.page.locator(`//p[text()='${actionText}']`);
+        break;
+      default:
+        throw new Error(`Quick Action not recognized: ${actionText}`);
     }
 
-    async clickonclock(){
-        await this.base.waitAndClick(this.Elements.clockicon);
+    await locator.waitFor({ state: 'visible', timeout: 5000 });
+
+    const actualText = await locator.textContent();
+    if (actualText?.trim() !== actionText) {
+      throw new Error(`Quick Action mismatch. Expected: "${actionText}", Found: "${actualText}"`);
     }
 
-    async TimeInsert(){
-        await this.base.waitAndClick(this.Elements.timeinsert);
-    }
-
-    async clickarrow(){
-        await this.base.waitAndClick(this.Elements.arrow);
-    }
-
-    async  out(){
-        await this.base.waitAndClick(this.Elements.out);
-    }
-
-    
+    console.log(`${actionText} Asserted`);
+  }
 }
