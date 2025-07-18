@@ -17,7 +17,11 @@ export default class DashboardPage {
     out: '//div[@class="oxd-form-actions"]/button',
     arrow: '//div[@class="oxd-time-minute-input"]/i[1]',
     dashboardTitle: "h6:has-text('Dashboard')",
-    dashboard: '//a[@href="/web/index.php/dashboard/index"]'
+    dashboard: '//a[@href="/web/index.php/dashboard/index"]',
+    
+    // ✅ Added Time menu link
+    timeMenuLink: '//a[@href="/web/index.php/time/viewTimeModule"]'
+    
   };
 
   async enterUsernameAndPassword(username: string, password: string) {
@@ -49,12 +53,18 @@ export default class DashboardPage {
     await this.base.waitAndClick(this.Elements.dashboard);
   }
 
+  // ✅ New method to navigate to Time module
+  async navigateToTimeModule() {
+    await this.base.waitAndClick(this.Elements.timeMenuLink);
+  }
+
   async assertDashboardTitle(expected: string) {
     const actual = await this.page.locator(this.Elements.dashboardTitle).textContent();
     if (!actual?.includes(expected)) {
       throw new Error(`Expected Dashboard title "${expected}", but got "${actual}"`);
     }
   }
+  
 
   async assertQuickActionVisible(actionText: string) {
     let locator;
