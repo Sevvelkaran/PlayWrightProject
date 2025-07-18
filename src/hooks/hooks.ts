@@ -37,7 +37,14 @@ import { options } from '../helper/util/logger';
     await context.close();
   });
   
-  AfterAll(async function () {
-    await browser.close();
-    await pageFixture.logger?.close();
-  });
+ AfterAll(async function () {
+  await browser.close();
+
+  if (pageFixture.logger) {
+    for (const transport of pageFixture.logger.transports) {
+      if (typeof transport.close === 'function') {
+        transport.close(); // proper shutdown of file/stream transports
+      }
+    }
+  }
+});
