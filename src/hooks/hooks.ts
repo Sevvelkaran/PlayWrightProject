@@ -1,6 +1,6 @@
   import { Before, After, BeforeAll, AfterAll, Status } from '@cucumber/cucumber';
   import { chromium, Browser, Page, BrowserContext } from '@playwright/test';
-  import { pageFixture } from '../hooks/pageFixture';
+  import pageFixture from '../hooks/pageFixture';
   import { Timer } from '../helper/timer';
   import { getEnv } from '../helper/env/env';
 import { invokeBrowser } from '../helper/browsers/browserManager';

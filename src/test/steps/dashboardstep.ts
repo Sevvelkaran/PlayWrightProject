@@ -1,5 +1,5 @@
 import { Given, Then, When } from "@cucumber/cucumber";
-import { pageFixture } from "../../hooks/pageFixture";
+import pageFixture from "../../hooks/pageFixture";
 import DashboardPage from "../pages/dashboardpage";
 
 let dashboardpage: DashboardPage;

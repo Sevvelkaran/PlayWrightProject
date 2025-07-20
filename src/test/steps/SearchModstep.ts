@@ -1,33 +1,37 @@
-import { Given, When, Then } from '@cucumber/cucumber';
-import { expect } from '@playwright/test';
-import { chromium, Page } from 'playwright';
+import { Given, When, Then } from "@cucumber/cucumber";
+import pageFixture from "../../hooks/pageFixture";
+import LoginPage from "../pages/loginpage";
+import SearchModPage from "../pages/SearchModpage";
+//import SearchModPage from "../pages/SearchModPage";
 
-let page: Page;
+let loginPage: LoginPage;
+let searchModPage: SearchModPage;
 
-Given('I am on the OrangeHRM login page', async () => {
-  const browser = await chromium.launch({ headless: false });
-  const context = await browser.newContext();
-  page = await context.newPage();
-  await page.goto('https://opensource-demo.orangehrmlive.com/web/index.php/auth/login');
+Given('I am on the OrangeHRM login page', { timeout: 20000 }, async function () {
+  await pageFixture.page?.goto("https://opensource-demo.orangehrmlive.com/web/index.php/auth/login", { waitUntil: 'networkidle' });
+  loginPage = new LoginPage(pageFixture.page!);
 });
 
-When('I login with valid credentials', async () => {
-  await page.fill('input[name="username"]', 'Admin');
-  await page.fill('input[name="password"]', 'admin123');
-  await page.click('button[type="submit"]');
-  await page.waitForSelector('input[placeholder="Search"]');
+
+Given('I login with valid credentials', async function () {
+ // this.setTimeout(20000);  // Set timeout to 20 seconds for this step
+
+  await loginPage.enterUsernameAndPassword("Admin", "admin123");
+  await loginPage.clicklogin();
+  await loginPage.waitForDashboard();
 });
 
-When('I click on the search bar', async () => {
-  await page.click('input[placeholder="Search"]');
+
+When('I click on the search bar', { timeout: 20000 }, async function () {
+  searchModPage = new SearchModPage(pageFixture.page!);
+  await searchModPage.clickSearchBar();
 });
 
-When('I type {string}', async (text: string) => {
-  await page.fill('input[placeholder="Search"]', text);
-  await page.waitForTimeout(1000);
+When('I type {string}', { timeout: 20000 }, async function (searchText: string) {
+  await searchModPage.typeSearch(searchText);
 });
 
-Then('I should see {string} in the search result', async (expected: string) => {
-  const result = page.locator(`.oxd-main-menu-item span:text-is("${expected}")`);
-  expect(await result.isVisible()).toBeTruthy();
+Then('I should see {string} in the search result', { timeout: 20000 }, async function (expectedText: string) {
+  await searchModPage.assertResultVisible(expectedText);
 });
+
