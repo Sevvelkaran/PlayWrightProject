@@ -14,7 +14,7 @@ export default class SubmitClaimPage {
     createButton: "//button[normalize-space()='Create']",
     currencyError: "//label[text()='Currency']/following::span[contains(@class,'oxd-input-field-error-message')]"
   };
-
+//username and password
    async UnamePwd(username: string, password: string) {
     await this.page.fill(this.selectors.usernameInput, username);
     await this.page.fill(this.selectors.passwordInput, password);
