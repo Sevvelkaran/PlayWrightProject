@@ -24,6 +24,7 @@ let configpage:configurationpage;
 
          Then('the Show Deprecated Fields option should remain enabled', async function () {
            console.log("verified Show Deprecated Fields option should remain enabled");
+           await configpage.verifyenabled();
          });
 
          When('the user clicks the Configuration menu and then clicks Custom Fields', async function () {

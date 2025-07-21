@@ -1,4 +1,4 @@
-import { Page } from "@playwright/test";
+import { Page,expect } from "@playwright/test";
 import PlaywrightWrapper from "../../helper/wrapper/PlaywrightWrapper";
 
 export default class Configurationpage {
@@ -41,6 +41,13 @@ export default class Configurationpage {
   }
   async save(){
     await this.base.waitAndClick(this.Elements.save);
+  }
+  async verifyenabled(){
+    const locator = this.page.locator(this.Elements.showdepreciated);
+    const isEnabled = await locator.isEnabled();
+    if (!isEnabled) {
+      throw new Error("Element is not enabled");
+    }
   }
   async clickcustomfield(){
     await this.base.waitAndClick(this.Elements.custommenu);
