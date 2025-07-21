@@ -25,7 +25,6 @@ When('the user clicks on Dashboard menu', async function () {
   await buzzPage.clickDashboardMenu();
 });
 
-
 Then('Assert The post to check its pressence', async function () {
   const isVisible = await buzzPage.isPostVisible("Great job team!");
   expect(isVisible).toBe(true);
