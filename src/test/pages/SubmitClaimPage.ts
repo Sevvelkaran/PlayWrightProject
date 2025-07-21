@@ -21,7 +21,7 @@ export default class SubmitClaimPage {
     await this.page.click(this.selectors.loginButton);
     await this.page.waitForURL('**/dashboard');
   }
-
+//navigation
   async navigateToSubmitClaim() {
     await this.page.click(this.selectors.claimMenu);
     await this.page.click(this.selectors.submitClaimLink);
