@@ -125,7 +125,7 @@ export default class Performance2Page {
     reviewStatus: '(//div[@class="oxd-table-cell oxd-padding-cell"])[6]',
     tabMyTrackers: '(//a[@class="oxd-topbar-body-nav-tab-item"])[1]',
     trackerName: '(//div[@class="oxd-table-cell oxd-padding-cell"])[1]',
-    linkEmployeeTrackers: '//a[text()="Employee Trackers"]',
+    linkEmployeeTrackers: '(//a[@class="oxd-topbar-body-nav-tab-item"])[2]',
     inputEmployeeName: '//input[contains(@placeholder, "Type for hints...")]',
     includeCheckbox: '//label[contains(text(), "Include")]/..//input[@type="checkbox"]',
     searchButton: '//button[@type="submit"]',

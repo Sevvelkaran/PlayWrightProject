@@ -104,16 +104,6 @@ Then('the Job Title should be {string} and Review Status should be {string}', as
 });
 
 
-
-
-
-
-// When('the user navigates to the Performance > My Trackers', async function () {
-//   perfPage = new Performance2Page(pageFixture.page!);
-//   await perfPage.goToMyTrackers();
-// });
-
-
 When('the user navigates to the Performance > My Trackers', async function () {
   const perf = new Performance2Page(this.page);
   await perf.goToMyTrackers();
@@ -123,13 +113,6 @@ Then('the correct tracker name should be displayed', async function () {
   const trackerName = await perfPage.getMyTrackerName();
   expect(trackerName).toBe('Tracker for paul');
 });
-
-
-
-
-
-
-
 
 
 When('the user navigates to the Performance > Employee Trackers', async function () {
@@ -146,15 +129,6 @@ Then('the employee {string} should be listed in Employee Trackers', async functi
   expect(trackerName).toContain(employeeName);
 });
 
-
-
-
-
-
-
-
-
-
 When('enters invalid employee name {string} and includes all records', async function (employeeName: string) {
   await perfPage.searchEmployee(employeeName);
 });
@@ -167,17 +141,6 @@ Then('an error message {string} should be displayed', async function (expectedEr
   const errorText = await perfPage.getNoRecordMessage();
   expect(errorText).toContain(expectedError);
 });
-
-
-
-
-
-
-
-
-
-
-
 
 When('clicks on the view button for the employee', async function () {
   await perfPage.clickViewButton();
