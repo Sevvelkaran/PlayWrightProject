@@ -20,7 +20,8 @@ export default class SubmitClaimPage {
     await this.page.fill(this.selectors.passwordInput, password);
     await this.page.click(this.selectors.loginButton);
   }
-
+//navigation
+//claim
   async navigateToSubmitClaim() {
     await this.page.click(this.selectors.claimMenu);
     await this.page.click(this.selectors.submitClaimLink);
