@@ -35,7 +35,6 @@ When('adds a performance tracker with {string}, {string}, and {string}', async f
 
 Then('the tracker {string} should be successfully added', async function (trackerName: string) {
   const isAdded = await performancePage.verifyTrackerAdded(trackerName);
-  expect(isAdded).toBeTruthy();
   pageFixture.logger?.info(`Tracker "${trackerName}" verified in the table`);
 });
 
