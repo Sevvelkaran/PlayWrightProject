@@ -6,6 +6,7 @@ import configurationpage from "../pages/Configurationpage";
 import { configDotenv } from 'dotenv';
 let configpage:configurationpage;
          When('the user click the PIM menu', { timeout: 20000 },async function () { 
+          pageFixture.logger?.info("Navigated to PIM page");
           configpage= new configurationpage(pageFixture.page!);
           await configpage.clickPim();
          });
@@ -13,24 +14,26 @@ let configpage:configurationpage;
          When('the user clicks the Configuration menu and then clicks Optional Fields', async function () {
         await configpage.clickConfiguration();
         await configpage.clickoptionalfield();
+        pageFixture.logger?.info("Navigated to Configuration page");
          });
 
          When('the user enables the Show Deprecated Fields option', async function () {
            await configpage.enableField();
+           pageFixture.logger?.info("Navigated to Buzz page");
          });
          When('the user clicks the Save button', async function () {
            await configpage.save();
          });
 
          Then('the Show Deprecated Fields option should remain enabled', async function () {
-           console.log("verified Show Deprecated Fields option should remain enabled");
            await configpage.verifyenabled();
+           pageFixture.logger?.info("verified Show Deprecated Fields option should remain enabled");
          });
 
          When('the user clicks the Configuration menu and then clicks Custom Fields', async function () {
            await configpage.clickConfiguration();
            await configpage.clickcustomfield();
-           
+           pageFixture.logger?.info("Navigated to Custom field page");
          });
 
          When('the user clicks the Add button',{ timeout: 20000 }, async function () {
