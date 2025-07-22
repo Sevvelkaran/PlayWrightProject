@@ -27,19 +27,19 @@ Scenario: Enable optional fields in PIM configuration
   | username | password  |
   | Admin    | admin123  |
   
-  # @smoke
-  # Scenario: Add Reporting methods in PIM configuration
-  # Given I want to go into OrangeHRM
-  # When The user enters the username "<username>" and password "<password>" to login
-  # And the user click the PIM menu
-  # And the user clicks the Configuration menu and then clicks Reporting methods
+  @smoke
+  Scenario: Add Reporting methods in PIM configuration
+  Given I want to go into OrangeHRM
+  When The user enters the username "<username>" and password "<password>" to login
+  And the user click the PIM menu
+  And the user clicks the Configuration menu and then clicks Reporting methods
   # And the user clicks the Add button
-  # And the user enters the name of the reporting method
+  And the user enters the name of the reporting method
   # And the user click the save button
-  # Then the reporting method should be added to the list
-  #    Examples:
-  # | username | password  |
-  # | Admin    | admin123  |
+  Then the reporting method should be added to the list
+     Examples:
+  | username | password  |
+  | Admin    | admin123  |
   
   
 # #   @smoke
