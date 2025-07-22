@@ -45,7 +45,8 @@ let configpage:configurationpage;
            await configpage.savecustomfield();
          });
 
-         Then('the field should be added to the records', async function () {
+         Then('the field should be added to the records',{ timeout: 20000 }, async function () {
+          await configpage.verifycustomfield();
            console.log("completed cusom field");
          });
          When('the user clicks the Configuration menu and then clicks Reporting methods', async function () {
@@ -55,6 +56,6 @@ let configpage:configurationpage;
          When('the user enters the name of the reporting method', async function () {
            await configpage.enterreportname();
          });
-         Then('the reporting method should be added to the list', async function () {
+         Then('the reporting method should be added to the list', { timeout: 20000 },async function () {
            await configpage.verifyreport();
          });

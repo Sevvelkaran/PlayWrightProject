@@ -7,7 +7,8 @@ export default class Configurationpage {
   constructor(private page: Page) {
     this.base = new PlaywrightWrapper(page);
   }
-
+  private uniqueFieldName = "";
+  private uniquereportName="";
   private Elements = {
     pim:"(//span[@class='oxd-text oxd-text--span oxd-main-menu-item--name'])[2]",
     configmenu:"(//span[@class='oxd-topbar-body-nav-tab-item'])[1]",
@@ -25,7 +26,8 @@ export default class Configurationpage {
     reportingmethodname:"(//div/input)[2]",
     reporttext:"(//div[@class='oxd-table-cell oxd-padding-cell'])[2]/div",
     delete:"(//button)[5]/i",
-    confirmdelete:"//div[3]/button[2]"
+    confirmdelete:"//div[3]/button[2]",
+    reportsave:"(//button)[5]",
   };
   async clickPim(){
     await this.base.waitAndClick(this.Elements.pim);
@@ -48,6 +50,8 @@ export default class Configurationpage {
     if (!isEnabled) {
       throw new Error("Element is not enabled");
     }
+    await this.base.waitAndClick(this.Elements.showdepreciated);
+     await this.base.waitAndClick(this.Elements.save);
   }
   async clickcustomfield(){
     await this.base.waitAndClick(this.Elements.custommenu);
@@ -57,8 +61,8 @@ export default class Configurationpage {
     await this.page.waitForTimeout(2000);
   }
   async fillform(){
-  const uniqueFieldName = `Employeeskill_${Date.now()}`;
-  await this.base.fill(this.Elements.fieldname,uniqueFieldName);
+  this.uniqueFieldName = `Employeeskill_${Date.now()}`;
+  await this.base.fill(this.Elements.fieldname,this.uniqueFieldName);
   await this.base.waitAndClick(this.Elements.screendropdown);
   await this.page.keyboard.press('ArrowDown');
   await this.page.keyboard.press('Enter');
@@ -69,15 +73,44 @@ export default class Configurationpage {
   async savecustomfield(){
     await this.base.waitAndClick(this.Elements.savecustomfield);
   }
+  async verifycustomfield(){
+  const expected = this.uniqueFieldName;
+  let i = 2;
+  while (true) {
+    const actual = await this.page.locator(`(//div[@class='oxd-table-row oxd-table-row--with-border'])[${i}]//div[@class='oxd-table-cell oxd-padding-cell'][2]`).textContent();
+    console.log(actual,expected);
+    if (actual?.trim() === expected) {
+      expect(actual?.trim()).toBe(expected);
+      console.log("Custom field added successfully");
+      // await this.page.locator(this.Elements.delete).click(); 
+      // await this.page.locator(this.Elements.confirmdelete).click();
+      break;
+    }
+    i++;
+  }
+  }
   async clickReportingmenu(){
     await this.base.waitAndClick(this.Elements.reportingmenu);
   }
   async enterreportname(){
     await this.base.waitAndClick(this.Elements.add);
-    const uniquereportName = `SummaryReport_${Date.now()}`;
-    await this.base.fill(this.Elements.reportingmethodname,uniquereportName);
+    this.uniquereportName = `SummaryReport_${Date.now()}`;
+    await this.base.fill(this.Elements.reportingmethodname,this.uniquereportName);
+    await this.page.waitForSelector(this.Elements.save, { state: 'visible' });
+    await this.base.waitAndClick(this.Elements.reportsave);
   }
   async verifyreport(){
-    console.log("Report Added successfully");
+    const expected =this.uniquereportName;
+  let i = 2;
+  while (true) {
+    const xpath = `(//div[@class='oxd-table-row oxd-table-row--with-border'])[${i}]//div[@class='oxd-table-cell oxd-padding-cell'][2]`;
+    const actual = await this.page.locator(xpath).textContent();
+    if (actual?.trim() === expected) {
+      expect(actual.trim()).toBe(expected);
+      console.log("Report Added successfully");
+      break;
+    }
+    i++;
+  }
   }
 }
