@@ -15,7 +15,7 @@ module.exports = {
       "json:test-results/cucumber-report.json"
     ],
     requireModule: ["ts-node/register"],
-    parallel: 1
+    parallel: 2
   },
 
 
@@ -36,7 +36,7 @@ module.exports = {
       "json:test-results/cucumber-report.json"
     ],
     requireModule: ["ts-node/register"],
-    parallel: 1
+    parallel: 2
   }
 
 }
