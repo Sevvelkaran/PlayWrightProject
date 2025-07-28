@@ -3,6 +3,8 @@ import { expect } from '@playwright/test';
 import BuzzPage from '../pages/BuzzPage';
 import { pageFixture } from '../../hooks/pageFixture';
 
+import buzzData from '../../helper/util/data/buzzdata.json';
+
 let buzzPage: BuzzPage;
 
 When('The user navigates to the Buzz page', async function () {
@@ -33,6 +35,21 @@ Then('Assert The post to check its pressence', async function () {
 
 
 
+
+Given('The user enters credentials from JSON', async () => {
+  await pageFixture.page!.fill('input[name="username"]', buzzData.username);
+  await pageFixture.page!.fill('input[name="password"]', buzzData.password);
+  await pageFixture.page!.click('button[type="submit"]');
+});
+
+When('The user posts the message from JSON', async () => {
+  await buzzPage.postMessage(buzzData.message);
+});
+
+Then('The posted message should appear in the Buzz feed', async () => {
+  const latest = await buzzPage.getLatestMessage();
+  expect(latest).toContain(buzzData.message);
+});
 
 
 
