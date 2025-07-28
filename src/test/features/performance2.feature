@@ -1,4 +1,3 @@
-@PerformanceTrackers
 Feature: Thoushika_20_JULY_2025_OrangeHRM_Performance2
 
   Background:
@@ -6,7 +5,7 @@ Feature: Thoushika_20_JULY_2025_OrangeHRM_Performance2
     And The user enters username "Admin" and password "admin123"
     And Clicks on the Login button
 
-@ManageReviews
+@smoke
   Scenario Outline: Verify Job Title and Review Status in My Reviews
     When the user navigates to the Performance > Manage Reviews > My Reviews
     Then the Job Title should be "<Job Title>" and Review Status should be "<Review Status>"
@@ -16,7 +15,7 @@ Feature: Thoushika_20_JULY_2025_OrangeHRM_Performance2
       | HR Manager | Activated     |
 
 
-@EmployeeTrackers
+@smoke
 Scenario Outline: Search valid employee in Employee Trackers
   When the user navigates to the Performance > Employee Trackers
   And enters valid employee name "<Employee Name>" and includes all records
@@ -27,7 +26,7 @@ Examples:
   | Gayu  R       |
 
 
-@EmployeeTrackersNegative
+@smoke
 Scenario Outline: Search invalid employee in Employee Trackers
   When the user navigates to the Performance > Employee Trackers
   And enters invalid employee name "<Employee Name>" and includes all records
@@ -39,7 +38,7 @@ Examples:
   | gjjkk         | Invalid         |
 
 
-@AddLog
+@sanity
 Scenario Outline: Add time log in Employee Trackers
   When the user navigates to the Performance > Employee Trackers
   And clicks on the view button for the employee
