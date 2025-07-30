@@ -9,6 +9,7 @@ export default class Configurationpage {
   }
   private uniqueFieldName = "";
   private uniquereportName="";
+  private uniqueterminationReason="";
   private Elements = {
     pim:"(//span[@class='oxd-text oxd-text--span oxd-main-menu-item--name'])[2]",
     configmenu:"(//span[@class='oxd-topbar-body-nav-tab-item'])[1]",
@@ -28,6 +29,7 @@ export default class Configurationpage {
     delete:"(//button)[5]/i",
     confirmdelete:"//div[3]/button[2]",
     reportsave:"(//button)[5]",
+    termination:"(//a[@class='oxd-topbar-body-nav-tab-link'])[5]"
   };
   async clickPim(){
     await this.base.waitAndClick(this.Elements.pim);
@@ -113,4 +115,35 @@ export default class Configurationpage {
     i++;
   }
   }
+  async clickTerminationreason(){
+  await this.base.waitAndClick(this.Elements.termination);
 }
+async enterterminationreason(){
+this.uniqueterminationReason = `Reason_${Date.now()}`;
+await this.base.fill(this.Elements.fieldname,this.uniqueterminationReason);
+}
+async verifyTerminationReason() {
+  const expected = this.uniqueterminationReason;
+  let i = 1;
+  const max = 50; // set a safe upper bound
+  while (i <= max) {
+    const xpath = `(//div[@class='oxd-table-cell oxd-padding-cell'][2]/div)[${i}]`;
+    const locator = this.page.locator(`xpath=${xpath}`);
+
+    // Check if the element exists before using textContent
+    const isVisible = await locator.isVisible();
+    if (!isVisible) break;
+
+    const actual = await locator.textContent();
+    console.log(`Row ${i}:`, actual);
+
+    if (actual?.trim() === expected) {
+      expect(actual.trim()).toBe(expected);
+      console.log("Reason Added successfully");
+      break;
+    }
+    i++;
+  }
+}
+}
+

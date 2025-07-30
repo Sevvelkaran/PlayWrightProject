@@ -42,12 +42,16 @@ Scenario: Enable optional fields in PIM configuration
   | Admin    | admin123  |
   
   
-# #   @smoke
-# #   Scenario: Add Termination Reson in PIM configuration
-# #   Given the user is on the DashBoard page
-# #   When the user click the PIM menu
-# #   And the user clicks the Configuration menu and then clicks Termination Reasons
-# #   And the user clicks the Add button
-# #   And the user enters the Termination reason
-# #   And the user click the save button
-# #   Then the Termination Reason should be added to the list
+  @smoke
+  Scenario: Add Termination Reson in PIM configuration
+  Given I want to go into OrangeHRM
+  When The user enters the username "<username>" and password "<password>" to login
+  And the user click the PIM menu
+  And the user clicks the Configuration menu and then clicks Termination Reasons
+  And the user clicks the Add button
+  And the user enters the Termination reason
+  And the user click the save button
+  Then the Termination Reason should be added to the list
+  Examples:
+  | username | password  |
+  | Admin    | admin123  |

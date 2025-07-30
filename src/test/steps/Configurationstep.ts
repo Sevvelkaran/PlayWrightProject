@@ -59,3 +59,17 @@ let configpage:configurationpage;
          Then('the reporting method should be added to the list', { timeout: 20000 },async function () {
            await configpage.verifyreport();
          });
+
+         When('the user clicks the Configuration menu and then clicks Termination Reasons', async function () {
+           await configpage.clickConfiguration();
+           await configpage.clickTerminationreason();
+         });
+
+         When('the user enters the Termination reason', async function () {
+           await configpage.enterterminationreason();
+         });
+
+         Then('the Termination Reason should be added to the list', async function () {
+           await configpage.verifyTerminationReason();
+         });
+
