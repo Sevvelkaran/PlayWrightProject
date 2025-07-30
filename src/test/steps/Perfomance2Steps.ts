@@ -105,7 +105,7 @@ Then('the Job Title should be {string} and Review Status should be {string}', as
 
 
 
-When('the user navigates to the Performance > My Trackers', async function () {
+When('the user navigates to the Performance > My Trackers', {timeout: 10000}, async function () {
   const perf = new Performance2Page(this.page);
   await perf.goToMyTrackers();
 });

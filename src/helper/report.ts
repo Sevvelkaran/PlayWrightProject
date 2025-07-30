@@ -18,7 +18,7 @@ report.generate({
     },
     device: "Karan machine",
     platform: {
-      name: "windows",
+      name: "macOS",
       version: "11",
     },
   },
@@ -32,7 +32,6 @@ report.generate({
     ],
   },
 });
-
 
 
 

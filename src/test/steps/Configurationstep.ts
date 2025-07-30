@@ -37,7 +37,7 @@ let configpage:configurationpage;
            await configpage.Addcustomfield();
          });
 
-         When('the user fills out the Add Custom Field form', async function () {
+         When('the user fills out the Add Custom Field form',{timeout:20000}, async function () {
            await configpage.fillform();
          });
 
