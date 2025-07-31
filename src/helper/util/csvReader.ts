@@ -4,7 +4,9 @@ import path from 'path';
 import csv from 'csv-parser';
 
 export function readCSV(fileName: string): Promise<any[]> {
-  const filePath = path.resolve('src/data', fileName);
+  //const filePath = path.resolve('src/data', fileName);
+  const filePath = path.resolve('src/helper/util/data', fileName);
+
   const results: any[] = [];
 
   return new Promise((resolve, reject) => {

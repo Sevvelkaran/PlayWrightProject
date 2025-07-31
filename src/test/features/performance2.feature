@@ -12,7 +12,7 @@ Feature: Thoushika_29_JULY_2025_OrangeHRM_Performance2
 
     Examples:
       | Job Title  | Review Status |
-      | HR Manager | Activated     |
+      | HR Manager | In Progress   |
 
 
 @smoke
@@ -23,7 +23,7 @@ Scenario Outline: Search valid employee in Employee Trackers
 
 Examples:
   | Employee Name |
-  | Gayu  R       |
+  | Gayu R       |
 
 
 @smoke

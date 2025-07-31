@@ -14,12 +14,20 @@ Examples:
   | Tracker Name | Employee Name | Reviewers  |
   | Sevvel       | Gayu R        | Thoushi F  |
 
+# @smoke
+# Scenario Outline: Add a tracker with invalid employee details
+#   When the user navigates to the Performance > Trackers page
+#   And adds a performance tracker with "<Tracker Name>", "<Employee Name>", and "<Reviewers>"
+#   Then the system should display an error message "Required"
+
+# Examples:
+#   | Tracker Name | Employee Name | Reviewers  |
+#   | Sevvel       |               | Thoushi F  |
+
+
 @smoke
-Scenario Outline: Add a tracker with invalid employee details
+Scenario: Add a tracker with invalid employee details from CSV
   When the user navigates to the Performance > Trackers page
-  And adds a performance tracker with "<Tracker Name>", "<Employee Name>", and "<Reviewers>"
+  And adds a performance tracker using data from "invalidtrackerdata.csv"
   Then the system should display an error message "Required"
 
-Examples:
-  | Tracker Name | Employee Name | Reviewers  |
-  | Sevvel       |               | Thoushi F  |
