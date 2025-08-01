@@ -14,6 +14,11 @@ export default class PIMPage{
     lastname: "//input[@name='lastName']",
     id: "(//input[@class='oxd-input oxd-input--active'])[2]",
     save: "//button[@class='oxd-button oxd-button--medium oxd-button--secondary orangehrm-left-space']",
+    reportto:"//a[text()='Report-to']",
+    supervisoradd:"(//h6/following::button)[3]",
+    supervisorname:"(//div[@class='oxd-autocomplete-text-input--before']/following::input)[1]",
+    superdropdown:"//i[@class='oxd-icon bi-caret-down-fill oxd-select-text--arrow']",
+
   };
 async clickAdd() {
     await this.page.click(this.Elements.add);
@@ -28,5 +33,19 @@ async clickAdd() {
 
   async clicksave() {
     await this.page.click(this.Elements.save);
+  }
+  async clickReportto(){
+    await this.page.click(this.Elements.reportto);
+  }
+  async clickSupervisorAdd(){
+    await this.page.click(this.Elements.supervisoradd);
+  }
+  async fillsupervisordata(name:string,method:string){
+   await this.page.fill(this.Elements.supervisorname,name);
+   await this.page.keyboard.press('ArrowDown');
+   await this.page.keyboard.press('Enter'); 
+   await this.page.click(this.Elements.superdropdown);
+   await this.page.keyboard.press('ArrowDown');
+   await this.page.keyboard.press('Enter'); 
   }
 }
