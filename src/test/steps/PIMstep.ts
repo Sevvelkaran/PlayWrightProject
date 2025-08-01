@@ -36,4 +36,22 @@ const fullName="";
          Then ('the employee should not be added successfully',async function(){
           console.log("user get error message");
          });
+         When('the user click the Report-to', {timeout:30000},async function () {
+          await pim.clickReportto();
+         });
+         When('the user click the Add button under Assigned Supervisors', async function () {
+          await pim.clickSupervisorAdd();
+         });
+         When('the user fills the Supervisor form with Name {string} and ReportingMethod {string}', async function (name, method) {
+         await pim.fillsupervisordata(name,method);
+         });
+         When('the user click the Save button', async function () {
+          await pim.clicksave();
+         });
+         Then('the user should be added to the supervisor Records', async function () {
+           console.log("supervisor added successfully");
+         });
         
+
+
+
